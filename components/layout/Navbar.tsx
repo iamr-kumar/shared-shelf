@@ -4,7 +4,15 @@ import Link from 'next/link';
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
 
-const navigation = ['Product', 'Features', 'Pricing', 'Company', 'Blog'];
+interface NavLinks {
+  name: string;
+  href: string;
+}
+
+const navLinks: NavLinks[] = [
+  { name: 'Browse', href: '/browse' },
+  { name: 'My Shelf', href: '/my-shelf' },
+];
 
 export const Navbar: React.FC = () => {
   return (
@@ -48,20 +56,20 @@ export const Navbar: React.FC = () => {
 
                 <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
                   <>
-                    {navigation.map((item, index) => (
+                    {navLinks.map((navLink, index) => (
                       <Link
                         key={index}
-                        href="/"
+                        href={navLink.href}
                         className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 dark:focus:bg-gray-800 focus:outline-none"
                       >
-                        {item}
+                        {navLink.name}
                       </Link>
                     ))}
                     <Link
-                      href="/"
+                      href="/auth"
                       className="w-full px-6 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5"
                     >
-                      Get Started
+                      Login
                     </Link>
                   </>
                 </Disclosure.Panel>
@@ -73,13 +81,13 @@ export const Navbar: React.FC = () => {
         {/* menu  */}
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
-            {navigation.map((menu, index) => (
+            {navLinks.map((navLink, index) => (
               <li className="mr-3 nav__item" key={index}>
                 <Link
-                  href="/"
+                  href={navLink.href}
                   className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
                 >
-                  {menu}
+                  {navLink.name}
                 </Link>
               </li>
             ))}
@@ -88,7 +96,7 @@ export const Navbar: React.FC = () => {
 
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
           <Link
-            href="/"
+            href="/auth"
             className="px-6 py-2 text-secondaryBlue bg-white rounded-md lg:ml-5"
           >
             Login
