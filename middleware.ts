@@ -11,6 +11,10 @@ export async function middleware(request: NextRequest) {
   if (!userId) {
     return NextResponse.redirect(new URL('/auth', request.url));
   }
+
+  const headers = new Headers(request.headers);
+  headers.set('x-user-id', userId);
+  return NextResponse.next({ request: { headers } });
 }
 
 export const config = {
