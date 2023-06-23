@@ -2,6 +2,8 @@ import { checkAndCreateUser } from '@/appwrite/utils/users';
 import { Inter } from 'next/font/google';
 import { Navbar } from '../components/layout/Navbar';
 import './globals.css';
+import { useAuth } from '@/store/auth';
+import { AuthStoreInitializer } from '@/components/AuthStoreInitializer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,9 +19,12 @@ export default async function RootLayout({
 }) {
   const user = await checkAndCreateUser();
 
+  useAuth.setState(user);
+
   return (
     <html lang="en">
       <body className={inter.className}>
+        <AuthStoreInitializer user={user} />
         <Navbar isAuthenticated={user !== null} />
         {children}
       </body>
