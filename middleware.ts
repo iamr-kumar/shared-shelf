@@ -7,6 +7,7 @@ export async function middleware(request: NextRequest) {
   if (!authToken) {
     return NextResponse.redirect(new URL('/auth', request.url));
   }
+
   const userId = await passage.validAuthToken(authToken);
   if (!userId) {
     return NextResponse.redirect(new URL('/auth', request.url));

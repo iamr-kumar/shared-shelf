@@ -14,7 +14,11 @@ const navLinks: NavLinks[] = [
   { name: 'My Shelf', href: '/my-shelf' },
 ];
 
-export const Navbar: React.FC = () => {
+export const Navbar: React.FC<{ isAuthenticated: boolean }> = ({
+  isAuthenticated,
+}: {
+  isAuthenticated: boolean;
+}) => {
   return (
     <div className="w-full">
       <nav className="bg-primaryBlue relative flex flex-wrap items-center justify-between p-4 lg:px-8 mx-auto lg:justify-between">
@@ -56,20 +60,21 @@ export const Navbar: React.FC = () => {
 
                 <Disclosure.Panel className="flex flex-wrap w-full my-5 lg:hidden">
                   <>
-                    {navLinks.map((navLink, index) => (
-                      <Link
-                        key={index}
-                        href={navLink.href}
-                        className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 dark:focus:bg-gray-800 focus:outline-none"
-                      >
-                        {navLink.name}
-                      </Link>
-                    ))}
+                    {isAuthenticated &&
+                      navLinks.map((navLink, index) => (
+                        <Link
+                          key={index}
+                          href={navLink.href}
+                          className="w-full px-4 py-2 -ml-4 text-gray-500 rounded-md dark:text-gray-300 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 dark:focus:bg-gray-800 focus:outline-none"
+                        >
+                          {navLink.name}
+                        </Link>
+                      ))}
                     <Link
-                      href="/auth"
+                      href={isAuthenticated ? '/shelf-create' : '/auth'}
                       className="w-full px-6 py-2 mt-3 text-center text-white bg-indigo-600 rounded-md lg:ml-5"
                     >
-                      Login
+                      {isAuthenticated ? 'Create Shelf' : 'Login'}
                     </Link>
                   </>
                 </Disclosure.Panel>
@@ -81,25 +86,26 @@ export const Navbar: React.FC = () => {
         {/* menu  */}
         <div className="hidden text-center lg:flex lg:items-center">
           <ul className="items-center justify-end flex-1 pt-6 list-none lg:pt-0 lg:flex">
-            {navLinks.map((navLink, index) => (
-              <li className="mr-3 nav__item" key={index}>
-                <Link
-                  href={navLink.href}
-                  className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
-                >
-                  {navLink.name}
-                </Link>
-              </li>
-            ))}
+            {isAuthenticated &&
+              navLinks.map((navLink, index) => (
+                <li className="mr-3 nav__item" key={index}>
+                  <Link
+                    href={navLink.href}
+                    className="inline-block px-4 py-2 text-lg font-normal text-gray-800 no-underline rounded-md dark:text-gray-200 hover:text-indigo-500 focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none dark:focus:bg-gray-800"
+                  >
+                    {navLink.name}
+                  </Link>
+                </li>
+              ))}
           </ul>
         </div>
 
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
           <Link
-            href="/auth"
+            href={isAuthenticated ? '/shelf-create' : '/auth'}
             className="px-6 py-2 text-secondaryBlue bg-white rounded-md lg:ml-5"
           >
-            Login
+            {isAuthenticated ? 'Create Shelf' : 'Login'}
           </Link>
         </div>
       </nav>

@@ -1,7 +1,7 @@
-import './globals.css';
+import { checkAndCreateUser } from '@/appwrite/utils/users';
 import { Inter } from 'next/font/google';
 import { Navbar } from '../components/layout/Navbar';
-import { getAuthenticatedUserFromSession } from '@/utils/passage';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -15,12 +15,12 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const userId = await getAuthenticatedUserFromSession();
+  const user = await checkAndCreateUser();
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
+        <Navbar isAuthenticated={user !== null} />
         {children}
       </body>
     </html>
