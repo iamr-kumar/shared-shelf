@@ -3,6 +3,9 @@
 import Link from 'next/link';
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
+import { CreateShelfModal } from '../ui/CreateShelfModal';
+import { GrAdd } from 'react-icons/gr';
+import { ModalType, useModal } from '@/store/modal';
 
 interface NavLinks {
   name: string;
@@ -19,6 +22,8 @@ export const Navbar: React.FC<{ isAuthenticated: boolean }> = ({
 }: {
   isAuthenticated: boolean;
 }) => {
+  const { handleOpen } = useModal();
+
   return (
     <div className="w-full">
       <nav className="bg-primaryBlue relative flex flex-wrap items-center justify-between p-4 lg:px-8 mx-auto lg:justify-between">
@@ -101,14 +106,27 @@ export const Navbar: React.FC<{ isAuthenticated: boolean }> = ({
         </div>
 
         <div className="hidden mr-3 space-x-4 lg:flex nav__item">
-          <Link
-            href={isAuthenticated ? '/shelf-create' : '/auth'}
-            className="px-6 py-2 text-secondaryBlue bg-white rounded-md lg:ml-5"
-          >
-            {isAuthenticated ? 'Create Shelf' : 'Login'}
-          </Link>
+          {isAuthenticated ? (
+            <div
+              className="px-6 py-2 text-secondaryBlue bg-white rounded-md lg:ml-5 hover:cursor-pointer flex items-center"
+              onClick={() => handleOpen(ModalType.CREATE_SHELF)}
+            >
+              <span className="mr-2">
+                <GrAdd className="text-secondaryBlue" />
+              </span>{' '}
+              Create Shelf
+            </div>
+          ) : (
+            <Link
+              href={isAuthenticated ? '/shelf-create' : '/auth'}
+              className="px-6 py-2 text-secondaryBlue bg-white rounded-md lg:ml-5"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </nav>
+      <CreateShelfModal />
     </div>
   );
 };
