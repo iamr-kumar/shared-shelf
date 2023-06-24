@@ -7,7 +7,7 @@ import { useRef } from 'react';
 export function AuthStoreInitializer({ user }: { user: User | null }) {
   const initialized = useRef(false);
 
-  if (!initialized.current) {
+  if (!initialized.current && user !== null) {
     useAuth.setState(user);
     initialized.current = true;
   }
