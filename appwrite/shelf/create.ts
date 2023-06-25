@@ -19,10 +19,6 @@ export async function createShelf(
 
     const id = ID.unique();
 
-    if (!params.bannerUrl) {
-      params.bannerUrl = Constants.DEFAULT_SHELF_BANNER_URL;
-    }
-
     const shelf = await db.createDocument<Shelf>(
       Constants.DB_NAME,
       Constants.SHELF_COLLECTION,

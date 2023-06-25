@@ -5,5 +5,6 @@ export interface Shelf extends Models.Document {
   createdBy: string;
   isPrivate: boolean;
   bannerUrl: string;
+  description: string;
   sharedWith: string[];
 }

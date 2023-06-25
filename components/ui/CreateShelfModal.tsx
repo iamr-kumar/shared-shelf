@@ -13,6 +13,7 @@ import { Modal } from './Modal';
 interface CreateShelfState {
   name: string;
   bannerUrl: string;
+  description: string;
   isPrivate: boolean;
 }
 
@@ -23,6 +24,7 @@ export const CreateShelfModal: React.FC = () => {
   const [createShelfState, setCreateShelfState] = useState<CreateShelfState>({
     name: '',
     bannerUrl: '',
+    description: '',
     isPrivate: false,
   });
 
@@ -76,6 +78,18 @@ export const CreateShelfModal: React.FC = () => {
             placeholder="https://unsplash.com/photos/..."
             handleChange={handleInputChange}
           />
+        </div>
+        <div className="mb-2">
+          <label className="block mb-2 text-sm font-medium text-gray-900 ">
+            Description
+          </label>
+          <textarea
+            name="description"
+            rows={4}
+            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Shelf of must read YA books"
+            onChange={(e) => handleInputChange('description', e.target.value)}
+          ></textarea>
         </div>
         <div className="mb-2">
           <label className="block mb-2 text-sm font-medium text-gray-900 ">

@@ -15,6 +15,7 @@ interface NavLinks {
 const navLinks: NavLinks[] = [
   { name: 'Browse', href: '/shelf/browse' },
   { name: 'My Shelf', href: '/shelf/my-shelf' },
+  { name: 'Bookmarks', href: '/shelf/bookmarks' },
 ];
 
 export const Navbar: React.FC<{ isAuthenticated: boolean }> = ({

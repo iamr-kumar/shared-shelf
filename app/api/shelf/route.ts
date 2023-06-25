@@ -1,4 +1,5 @@
 import { createShelf } from '@/appwrite/shelf/create';
+import { getAllPublicShelfs } from '@/appwrite/shelf/get';
 import { Shelf } from '@/appwrite/shelf/model';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -27,4 +28,13 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json(shelf, { status: 201 });
+}
+
+export async function GET(request: NextRequest) {
+  const shelf = await getAllPublicShelfs();
+  if (!shelf) {
+    return NextResponse.json({ error: 'Failed to get shelf' }, { status: 500 });
+  }
+  console.log(shelf);
+  return NextResponse.json(shelf, { status: 200 });
 }
