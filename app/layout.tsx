@@ -4,6 +4,7 @@ import { useAuth } from '@/store/auth';
 import { Inter } from 'next/font/google';
 import { Navbar } from '../components/layout/Navbar';
 import './globals.css';
+import { Toast } from '@/components/ui/Toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,7 +27,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <AuthStoreInitializer user={user} />
         <Navbar isAuthenticated={user !== null} />
-
+        <Toast />
         {children}
       </body>
     </html>

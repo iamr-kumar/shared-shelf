@@ -13,8 +13,8 @@ interface NavLinks {
 }
 
 const navLinks: NavLinks[] = [
-  { name: 'Browse', href: '/browse' },
-  { name: 'My Shelf', href: '/my-shelf' },
+  { name: 'Browse', href: '/shelf/browse' },
+  { name: 'My Shelf', href: '/shelf/my-shelf' },
 ];
 
 export const Navbar: React.FC<{ isAuthenticated: boolean }> = ({
