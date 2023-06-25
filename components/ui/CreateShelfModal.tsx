@@ -1,12 +1,14 @@
 'use client';
 
+import { Shelf } from '@/appwrite/shelf/model';
 import { ModalType, useModal } from '@/store/modal';
+import { useToast } from '@/store/toast';
+import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { InputController } from '../form/InputController';
 import { Modal } from './Modal';
-import { useToast } from '@/store/toast';
 
 interface CreateShelfState {
   name: string;
@@ -41,14 +43,13 @@ export const CreateShelfModal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
-      // const shelf: Shelf = await axios.post('/api/shelf', createShelfState);
-      const shelf = true;
+      const shelf: Shelf = await axios.post('/api/shelf', createShelfState);
       if (shelf) {
         showToast('Shelf created successfully.', toast.TYPE.SUCCESS);
         handleClose();
       }
     } catch (err) {
-      showToast('Shelf created successfully.', toast.TYPE.ERROR);
+      showToast('Oops! Some error occurred.', toast.TYPE.ERROR);
     }
   };
 

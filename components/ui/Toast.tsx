@@ -9,22 +9,18 @@ export const Toast: React.FC = () => {
 
   useEffect(() => {
     if (message) {
-      toast(message, { type: type, onClose: () => dismissToast() });
+      toast(message, {
+        type: type,
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        onClose: () => dismissToast(),
+      });
     }
   }, [message, type, dismissToast]);
 
-  return (
-    <ToastContainer
-      position="bottom-right"
-      autoClose={3000}
-      hideProgressBar={true}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="light"
-    />
-  );
+  return <ToastContainer />;
 };
