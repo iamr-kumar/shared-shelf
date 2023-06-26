@@ -22,7 +22,10 @@ export async function getAllPublicShelfs(): Promise<Shelf[] | null> {
   }
 }
 
-export async function getShelfById(id: string): Promise<Shelf | null> {
+export async function getShelfById(
+  id: string,
+  authUserId: string
+): Promise<Shelf | null> {
   const { db } = appwriteConfig;
 
   try {
@@ -33,6 +36,9 @@ export async function getShelfById(id: string): Promise<Shelf | null> {
     );
     if (!shelf) {
       throw new Error('Failed to get shelf');
+    }
+    if (shelf.createdBy !== authUserId && shelf.isPrivate) {
+      throw new Error('Shelf is private');
     }
     return shelf;
   } catch (err) {

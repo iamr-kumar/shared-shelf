@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import { Shelf } from '@/appwrite/shelf/model';
@@ -7,7 +8,7 @@ import { ReactNode } from 'react';
 import { AiOutlineShareAlt } from 'react-icons/ai';
 import { FaRegBookmark } from 'react-icons/fa';
 
-const CardButton: React.FC<{ children: ReactNode }> = ({
+export const CardButton: React.FC<{ children: ReactNode }> = ({
   children,
 }: {
   children: ReactNode;
@@ -27,7 +28,7 @@ export const ShelfCard: React.FC<{ shelf: Shelf }> = (props: {
 
   return (
     <Link
-      href="#"
+      href={`/shelf/browse/${shelf.$id}`}
       className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
     >
       <img
