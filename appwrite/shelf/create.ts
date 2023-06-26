@@ -17,6 +17,10 @@ export async function createShelf(
       throw new Error('User ID is required');
     }
 
+    if (!params.bannerUrl) {
+      params.bannerUrl = Constants.DEFAULT_BANNER_URL;
+    }
+
     const id = ID.unique();
 
     const shelf = await db.createDocument<Shelf>(
@@ -44,6 +48,7 @@ export async function createStarterShelfs(userId: string): Promise<void> {
     isPrivate: true,
     sharedWith: [],
     createdBy: userId,
+    description: 'This shelf keeps track of all the books you wish to read.',
   };
 
   const readingShelf: Partial<Shelf> = {
@@ -51,6 +56,8 @@ export async function createStarterShelfs(userId: string): Promise<void> {
     isPrivate: true,
     sharedWith: [],
     createdBy: userId,
+    description:
+      'This shelf keeps track of all the books you are currently reading.',
   };
 
   const readShelf: Partial<Shelf> = {
@@ -58,6 +65,7 @@ export async function createStarterShelfs(userId: string): Promise<void> {
     isPrivate: true,
     sharedWith: [],
     createdBy: userId,
+    description: 'This shelf keeps track of all the books you have read.',
   };
 
   try {

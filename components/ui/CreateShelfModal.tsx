@@ -50,6 +50,7 @@ export const CreateShelfModal: React.FC = () => {
         showToast('Shelf created successfully.', toast.TYPE.SUCCESS);
         handleClose();
       }
+      console.log('createShelfState', createShelfState);
     } catch (err) {
       showToast('Oops! Some error occurred.', toast.TYPE.ERROR);
     }
@@ -88,7 +89,7 @@ export const CreateShelfModal: React.FC = () => {
             rows={4}
             className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Shelf of must read YA books"
-            onChange={(e) => handleInputChange('description', e.target.value)}
+            onChange={(e) => handleInputChange(e.target.name, e.target.value)}
           ></textarea>
         </div>
         <div className="mb-2">

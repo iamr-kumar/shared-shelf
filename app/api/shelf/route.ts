@@ -16,6 +16,7 @@ export async function POST(request: NextRequest) {
     isPrivate: body.isPrivate,
     bannerUrl: body.bannerUrl,
     createdBy: userId,
+    description: body.description,
   };
 
   const shelf = await createShelf(createShelfParams);
@@ -35,6 +36,5 @@ export async function GET(request: NextRequest) {
   if (!shelf) {
     return NextResponse.json({ error: 'Failed to get shelf' }, { status: 500 });
   }
-  console.log(shelf);
   return NextResponse.json(shelf, { status: 200 });
 }
