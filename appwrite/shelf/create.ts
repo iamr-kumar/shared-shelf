@@ -42,6 +42,29 @@ export async function createShelf(
   }
 }
 
+export async function addBookToShelf(
+  shelfId: string,
+  bookId: string
+): Promise<Shelf | null> {
+  const { db } = appwriteConfig;
+  try {
+    const shelf = await db.updateDocument<Shelf>(
+      Constants.DB_NAME,
+      Constants.SHELF_COLLECTION,
+      shelfId,
+      {
+        books: {
+          $push: bookId,
+        },
+      }
+    );
+    return shelf;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
 export async function createStarterShelfs(userId: string): Promise<void> {
   const toReadShelf: Partial<Shelf> = {
     name: 'To Read',

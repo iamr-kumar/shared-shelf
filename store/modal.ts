@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 export enum ModalType {
   CREATE_SHELF = 'CREATE_SHELF',
+  ADD_BOOK = 'ADD_BOOK',
 }
 
 export interface ModalState {

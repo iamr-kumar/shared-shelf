@@ -7,4 +7,5 @@ export interface Shelf extends Models.Document {
   bannerUrl: string;
   description: string;
   sharedWith: string[];
+  books: string[];
 }
