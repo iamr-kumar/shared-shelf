@@ -7,8 +7,13 @@ import { useParams } from 'next/navigation';
 export const BookListTile: React.FC<{
   book: Book;
   setError: (error: string) => void;
-}> = (props: { book: Book; setError: (error: string) => void }) => {
-  const { book, setError } = props;
+  setSuccess: (success: string) => void;
+}> = (props: {
+  book: Book;
+  setError: (error: string) => void;
+  setSuccess: (success: string) => void;
+}) => {
+  const { book, setError, setSuccess } = props;
 
   const params = useParams();
   const shelfId = params.id;
@@ -21,10 +26,10 @@ export const BookListTile: React.FC<{
         `http://localhost:3000/api/shelf/${shelfId}`,
         { book: { ...book, userId: user!.id } }
       );
-      console.log(response);
+      setSuccess('Book added successfully.');
     } catch (err) {
       console.log(err);
-      setError('Oops! Could not add book.');
+      setError('Could not add book.');
     }
   };
 

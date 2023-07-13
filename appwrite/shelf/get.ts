@@ -2,6 +2,7 @@ import { Query } from 'node-appwrite';
 import { appwriteConfig } from '../config';
 import { Constants } from '../constants';
 import { Shelf } from './model';
+import { getBooksByIds } from '../book/get';
 
 export async function getAllPublicShelfs(): Promise<Shelf[] | null> {
   const { db } = appwriteConfig;
@@ -40,6 +41,13 @@ export async function getShelfById(
     if (shelf.createdBy !== authUserId && shelf.isPrivate) {
       throw new Error('Shelf is private');
     }
+    const books = await getBooksByIds(shelf.bookIds);
+    if (!books) {
+      shelf.books = [];
+    } else {
+      shelf.books = books;
+    }
+
     return shelf;
   } catch (err) {
     console.error(err);

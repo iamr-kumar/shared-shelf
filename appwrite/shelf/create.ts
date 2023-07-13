@@ -2,6 +2,7 @@ import { ID } from 'node-appwrite';
 import { appwriteConfig } from '../config';
 import { Constants } from '../constants';
 import { Shelf } from './model';
+import { getShelfById } from './get';
 
 export async function createShelf(
   params: Partial<Shelf>
@@ -37,28 +38,35 @@ export async function createShelf(
     return shelf;
   } catch (err) {
     console.error(err);
-
     return null;
   }
 }
 
 export async function addBookToShelf(
   shelfId: string,
-  bookId: string
+  bookId: string,
+  bookIds: string[]
 ): Promise<Shelf | null> {
   const { db } = appwriteConfig;
   try {
-    const shelf = await db.updateDocument<Shelf>(
+    const shelf = await db.getDocument<Shelf>(
+      Constants.DB_NAME,
+      Constants.SHELF_COLLECTION,
+      shelfId
+    );
+    if (!shelf) {
+      throw new Error('Shelf does not exist');
+    }
+    const { bookIds } = shelf;
+    const updatedShelf = await db.updateDocument<Shelf>(
       Constants.DB_NAME,
       Constants.SHELF_COLLECTION,
       shelfId,
       {
-        books: {
-          $push: bookId,
-        },
+        bookIds: [...bookIds, bookId],
       }
     );
-    return shelf;
+    return updatedShelf;
   } catch (err) {
     console.error(err);
     return null;

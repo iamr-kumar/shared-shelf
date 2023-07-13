@@ -4,7 +4,6 @@ import { Book } from '@/appwrite/book/model';
 import { ModalType, useModal } from '@/store/modal';
 import debounce from '@/utils/debounce';
 import axios from 'axios';
-import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { BookListTile } from './BookListTile';
@@ -15,9 +14,7 @@ export const AddBookModal: React.FC = () => {
   const [searchResults, setSearchResults] = useState<Book[]>([]);
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState<String | null>();
-
-  const params = useParams();
-  const shelfId = params.id;
+  const [success, setSuccess] = useState<String | null>();
 
   const setAndRemoveError = (error: string) => {
     setError(error);
@@ -90,6 +87,12 @@ export const AddBookModal: React.FC = () => {
           <span className="block sm:inline">{error}</span>
         </div>
       )}
+      {success && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-6">
+          <strong className="font-bold">Success! </strong>
+          <span className="block sm:inline">{success}</span>
+        </div>
+      )}
       <div className="relative">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
@@ -134,7 +137,11 @@ export const AddBookModal: React.FC = () => {
             <ul>
               {searchResults.map((book) => (
                 <li key={book.id}>
-                  <BookListTile book={book} setError={setAndRemoveError} />
+                  <BookListTile
+                    book={book}
+                    setError={setAndRemoveError}
+                    setSuccess={setSuccess}
+                  />
                 </li>
               ))}
             </ul>
