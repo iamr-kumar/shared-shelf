@@ -1,8 +1,10 @@
+'use client';
+
 /* eslint-disable @next/next/no-img-element */
 import { Book } from '@/appwrite/book/model';
 import { useAuth } from '@/store/auth';
 import axios from 'axios';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 export const BookListTile: React.FC<{
   book: Book;
@@ -19,6 +21,7 @@ export const BookListTile: React.FC<{
   const shelfId = params.id;
 
   const user = useAuth();
+  const router = useRouter();
 
   const addBook = async (book: Book) => {
     try {
@@ -27,6 +30,7 @@ export const BookListTile: React.FC<{
         { book: { ...book, userId: user!.id } }
       );
       setSuccess('Book added successfully.');
+      router.refresh();
     } catch (err) {
       console.log(err);
       setError('Could not add book.');

@@ -44,8 +44,7 @@ export async function createShelf(
 
 export async function addBookToShelf(
   shelfId: string,
-  bookId: string,
-  bookIds: string[]
+  bookId: string
 ): Promise<Shelf | null> {
   const { db } = appwriteConfig;
   try {
