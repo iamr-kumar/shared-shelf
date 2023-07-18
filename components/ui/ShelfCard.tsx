@@ -3,18 +3,33 @@
 
 import { Shelf } from '@/appwrite/shelf/model';
 import { useAuth } from '@/store/auth';
-import Link from 'next/link';
-import { ReactNode } from 'react';
+import { ModalType, useModal } from '@/store/modal';
+import { useRouter } from 'next/navigation';
+import { ReactNode, useState } from 'react';
 import { AiOutlineShareAlt } from 'react-icons/ai';
 import { FaRegBookmark } from 'react-icons/fa';
+import { ShareModal } from './ShareModal';
 
-export const CardButton: React.FC<{ children: ReactNode }> = ({
+export const CardButton: React.FC<{
+  children: ReactNode;
+  handleClick: () => void;
+}> = ({
   children,
+  handleClick,
 }: {
   children: ReactNode;
+  handleClick: () => void;
 }) => {
+  const showShareModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    handleClick();
+  };
+
   return (
-    <button className="rounded-full border-2 border-primaryBlue p-2 hover:bg-secondaryBlue transition hover:border-white mr-2">
+    <button
+      className="rounded-full border-2 border-primaryBlue p-2 hover:bg-secondaryBlue transition hover:border-white mr-2"
+      onClick={showShareModal}
+    >
       {children}
     </button>
   );
@@ -24,13 +39,21 @@ export const ShelfCard: React.FC<{ shelf: Shelf }> = (props: {
   shelf: Shelf;
 }) => {
   const { shelf } = props;
+  const [showShareModal, setShowShareModal] = useState(false);
+
   const user = useAuth();
+  const router = useRouter();
 
   return (
-    <Link
-      href={`/shelf/browse/${shelf.$id}`}
+    <div
+      onClick={() => router.push(`/shelf/browse/${shelf.$id}`)}
       className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100"
     >
+      <ShareModal
+        shelf={shelf}
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+      />
       <img
         width={200}
         height={400}
@@ -49,16 +72,16 @@ export const ShelfCard: React.FC<{ shelf: Shelf }> = (props: {
           {shelf.description}
         </p>
         <div className="flex mt-2 items-center justify-around w-1/2">
-          <CardButton>
+          <CardButton handleClick={() => setShowShareModal(true)}>
             <AiOutlineShareAlt />
           </CardButton>
           {user?.id === shelf.createdBy && (
-            <CardButton>
+            <CardButton handleClick={() => setShowShareModal(false)}>
               <FaRegBookmark />
             </CardButton>
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 };

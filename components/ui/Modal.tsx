@@ -11,7 +11,8 @@ interface ModalProps {
 export const Modal: React.FC<ModalProps> = (props: ModalProps) => {
   const { children, isOpen, onClose } = props;
 
-  const handleOnClose = () => {
+  const handleOnClose = (e: React.MouseEvent<SVGElement>) => {
+    e.stopPropagation();
     onClose();
   };
 

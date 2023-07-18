@@ -1,5 +1,6 @@
 import { getAllPublicShelfs } from '@/appwrite/shelf/get';
 import { ErrorCard } from '@/components/ui/ErrorCard';
+import { ShareModal } from '@/components/ui/ShareModal';
 import { ShelfCard } from '@/components/ui/ShelfCard';
 
 export default async function BrowsePage() {
