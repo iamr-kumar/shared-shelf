@@ -89,7 +89,7 @@ export const ShelfCard: React.FC<{ shelf: Shelf }> = (props: {
           <CardButton handleClick={handleShare}>
             <AiOutlineShareAlt />
           </CardButton>
-          {user?.id === shelf.createdBy && (
+          {user?.id !== shelf.createdBy && (
             <CardButton handleClick={() => setShowShareModal(false)}>
               <FaRegBookmark />
             </CardButton>
