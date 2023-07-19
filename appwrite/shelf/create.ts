@@ -72,6 +72,36 @@ export async function addBookToShelf(
   }
 }
 
+export async function updateShelf(
+  shelfId: string,
+  data: Partial<Shelf>
+): Promise<Shelf | null> {
+  const { db } = appwriteConfig;
+  const updateParams = removeKeys(data, [
+    '$id',
+    '$collectionId',
+    '$createdAt',
+    '$updatedAt',
+    '$databaseId',
+    '$permissions',
+    'createdBy',
+  ]);
+  try {
+    const shelf = await db.updateDocument<Shelf>(
+      Constants.DB_NAME,
+      Constants.SHELF_COLLECTION,
+      shelfId,
+      {
+        ...updateParams,
+      }
+    );
+    return shelf;
+  } catch (err) {
+    console.error(err);
+    return null;
+  }
+}
+
 export async function createStarterShelfs(userId: string): Promise<void> {
   const toReadShelf: Partial<Shelf> = {
     name: 'To Read',
@@ -111,4 +141,13 @@ export async function createStarterShelfs(userId: string): Promise<void> {
   } catch (err) {
     console.error(err);
   }
+}
+
+function removeKeys<T extends object, K extends keyof T>(
+  obj: T,
+  keysToRemove: K[]
+): Partial<T> {
+  const result: Partial<T> = { ...obj };
+  keysToRemove.forEach((key) => delete result[key]);
+  return result;
 }

@@ -13,7 +13,7 @@ export default async function ShelfPage({
   const id = params.id;
   const userId = headers().get('x-user-id');
   const shelf = await getShelfById(id, userId!);
-  const error = shelf !== null ? null : 'Oops! Some error occurred.';
+  const error = shelf !== null ? null : 'Oops! This Shelf is not available.';
 
   return error ? (
     <ErrorCard error={error} />

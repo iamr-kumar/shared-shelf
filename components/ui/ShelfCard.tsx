@@ -3,12 +3,13 @@
 
 import { Shelf } from '@/appwrite/shelf/model';
 import { useAuth } from '@/store/auth';
-import { ModalType, useModal } from '@/store/modal';
 import { useRouter } from 'next/navigation';
 import { ReactNode, useState } from 'react';
 import { AiOutlineShareAlt } from 'react-icons/ai';
 import { FaRegBookmark } from 'react-icons/fa';
 import { ShareModal } from './ShareModal';
+import { useToast } from '@/store/toast';
+import { toast } from 'react-toastify';
 
 export const CardButton: React.FC<{
   children: ReactNode;
@@ -44,6 +45,19 @@ export const ShelfCard: React.FC<{ shelf: Shelf }> = (props: {
   const user = useAuth();
   const router = useRouter();
 
+  const { showToast } = useToast();
+
+  const handleShare = async () => {
+    if (user?.$id === shelf.createdBy) {
+      setShowShareModal(true);
+      return;
+    }
+    await navigator.clipboard.writeText(
+      `http://localhost:3000/shelf/browse/${shelf.$id}`
+    );
+    showToast('Link copied to clipboard.', toast.TYPE.SUCCESS);
+  };
+
   return (
     <div
       onClick={() => router.push(`/shelf/browse/${shelf.$id}`)}
@@ -72,7 +86,7 @@ export const ShelfCard: React.FC<{ shelf: Shelf }> = (props: {
           {shelf.description}
         </p>
         <div className="flex mt-2 items-center justify-around w-1/2">
-          <CardButton handleClick={() => setShowShareModal(true)}>
+          <CardButton handleClick={handleShare}>
             <AiOutlineShareAlt />
           </CardButton>
           {user?.id === shelf.createdBy && (
